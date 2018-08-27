@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/ohdearaugustin/ansible-acmetool.svg?branch=master)](https://travis-ci.org/ohdearaugustin/ansible-acmetool)
 Role Name
 =========
 
