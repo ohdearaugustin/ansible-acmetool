@@ -1,0 +1,48 @@
+---
+# tasks file for ansible-acmetool
+
+- name: Add acmetool repository
+  apt_repository:
+    repo: ppa:hlandau/rhea
+    codename: xenial
+
+- name: Install acmetool
+  apt:
+    package: "acmetool"
+    state: "present"
+
+- name: Create config folder
+  file:
+    path: "/var/lib/acme/conf/"
+    state: directory
+
+- name: Configure acmetool
+  template:
+    src: "var/lib/acme/conf/responses.j2"
+    dest: "/var/lib/acme/conf/responses"
+    owner: "root"
+    group: "root"
+    mode: "0644"
+  register: acmetool_configure
+
+- name: Rootless setup
+  include_tasks: rootless.yml
+  when: acmetool_rootless
+
+- name: Systemd Timer setup
+  include_tasks: systemdtimer.yml
+  when: acmetool_install_systemd_timer and not acmetool_install_cronjob
+
+- name: Run acmetool quickstart
+  command: acmetool quickstart
+  register: acmetool_cmd
+  failed_when: acmetool_cmd.rc != 0
+  when: not acmetool_rootless and acmetool_configure.changed
+
+- name: Run acmetool quickstart rootless
+  become: yes
+  become_user: "{{acmetool_user}}"
+  command: acmetool quickstart
+  register: acmetool_cmd
+  failed_when: acmetool_cmd.rc != 0
+  when: acmetool_rootless and acmetool_configure.changed

@@ -1,0 +1,43 @@
+---
+#Task file for rootless acmetool setup
+
+- name: Create "{{acmetool_user}}" user for acmetool
+  user:
+    name: "{{acmetool_user}}"
+    group: "{{acmetool_user}}"
+    create_home: no
+    shell: "/usr/sbin/nologin"
+
+- name: Create /var/lib/acme and set permissions
+  file:
+    path: "/var/lib/acme"
+    owner: "{{acmetool_user}}"
+    group: "{{acmetool_user}}"
+    state: "directory"
+
+- name: Create /usr/lib/acme/hooks and set permissions
+  file:
+    path: "/usr/lib/acme/hooks"
+    owner: "root"
+    group: "{{acmetool_user}}"
+    mode: "0775"
+    state: "directory"
+
+- name: Run acmetool quickstart
+  command: acmetool quickstart
+  become_user: "{{acmetool_user}}"
+
+- name: Lookdown permissions
+  file:
+    path: "/usr/lib/acme/hooks"
+    owner: "root"
+    group: "root"
+    mode: u+s,g=rX
+    recurse: yes
+
+- name: Setup NOPASSWD for /usr/lib/acme/hooks
+  lineinfile:
+    path: /etc/sudoers
+    state: present
+    insertafter: "^# User priviledge"
+    line: "{{acmetool_user}} ALL=(root) NOPASSWD: /usr/lib/acme/hooks/"

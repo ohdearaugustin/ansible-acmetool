@@ -1,0 +1,15 @@
+# {{ansible_managed}}
+
+"acme-enter-email": "{{acmetool_email}}"
+"acme-agreement:https://letsencrypt.org/documents/LE-SA-v1.2-November-15-2017.pdf": {{acmetool_agreement}}
+"acmetool-quickstart-choose-server": {{acmetool_server}}
+"acmetool-quickstart-choose-method": {{acmetool_method}}
+# This is only used if "acmetool-quickstart-choose-method" is "webroot".
+"acmetool-quickstart-webroot-path": "{{acmetool_webroot_path}}"
+"acmetool-quickstart-complete": {{acmetool_quickstart_complete}}
+"acmetool-quickstart-install-cronjob": {{acmetool_install_cronjob}}
+"acmetool-quickstart-install-haproxy-script": {{acmetool_install_haproxy_script}}
+"acmetool-quickstart-install-redirector-systemd": {{acmetool_install_redirector_systemd}}
+"acmetool-quickstart-key-type": {{acmetool_key_type}}
+"acmetool-quickstart-rsa-key-size": {{acmetool_rsa_key_size}}
+"acmetool-quickstart-ecdsa-curve": {{acmetool_ecdsa_curve}}

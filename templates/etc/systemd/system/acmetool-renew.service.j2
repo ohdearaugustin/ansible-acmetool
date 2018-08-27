@@ -1,0 +1,22 @@
+[Unit]
+Description=ACME Tool renews LetsEncrypt certificates
+
+[Service]
+#oneshot: this process has to exit before follow up units (e.g. acmecertinstall.service) are started
+Type=oneshot
+ExecStart=/usr/bin/acmetool --batch reconcile
+CPUQuota=50%
+ProtectKernelTunables=yes
+ReadWritePaths=/var/lib/acme/ -/var/log/acmetool/ -/var/run/acme/
+ProtectSystem=strict
+ProtectControlGroups=yes
+PrivateDevices=true
+NoNewPrivileges=true
+AmbientCapabilities=CAP_NET_BIND_SERVICE
+{% if acmetool_rootless %}
+User={{acmetool_user}}
+Group={{acmetool_user}}
+{% endif %}
+
+[Install]
+WantedBy=multi-user.target

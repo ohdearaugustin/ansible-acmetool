@@ -1,0 +1,19 @@
+---
+# defaults file for ansible-acmetool
+
+acmetool_rootless: False
+acmetool_user: "acme"
+
+acmetool_email: ""
+acmetool_agreement: True
+acmetool_server: "https://acme-v01.api.letsencrypt.org/directory"
+acmetool_method: "proxy"
+acmetool_webroot_path: ""
+acmetool_quickstart_complete: True
+acmetool_install_cronjob: False 
+acmetool_install_systemd_timer: False
+acmetool_install_haproxy_script: False
+acmetool_install_redirector_systemd: True
+acmetool_key_type: "rsa"
+acmetool_rsa_key_size: 4096
+acmetool_ecdsa_curve: "nistp256" 

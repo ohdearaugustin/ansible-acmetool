@@ -1,0 +1,10 @@
+[Unit]
+Description=run acmetool once per day
+RefuseManualStart=false
+RefuseManualStop=false
+
+[Timer]
+OnCalendar=daily
+
+[Install]
+WantedBy=multi-user.target

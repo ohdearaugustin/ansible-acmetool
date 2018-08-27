@@ -1,0 +1,23 @@
+---
+
+- name: Added acmetool-renew.service
+  template:
+    src: "etc/systemd/system/acmetool-renew.service.j2"
+    dest: "/etc/systemd/system/acmetool-renew.service"
+    owner: "root"
+    group: "root"
+    mode: "0644"
+
+- name: Add acmetool-renew.timer
+  copy:
+    src: "etc/systemd/system/acmetool-renew.timer"
+    dest: "/etc/systemd/system/acmetool-renew.timer"
+    owner: "root"
+    group: "root"
+    mode: "0644"
+
+- name: Enable timer
+  systemd:
+    name: acmetool-renew.timer
+    state: started
+    enabled: yes
