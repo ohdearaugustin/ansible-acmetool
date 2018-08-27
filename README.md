@@ -36,7 +36,7 @@ acmetool_webroot_path: ""
 
 acmetool_quickstart_complete: True
 
-acmetool_systemd_timer: False
+acmetool_install_systemd_timer: False
 > optional, install systemd timer for autorenewal
 
 acmetool_install_cronjob: False
