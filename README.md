@@ -15,32 +15,45 @@ Default Variables
 
 acmetool_rootless: False
 > optional, install acmetool as non-root user
+
 acmetool_user: "acme"
 > no-root username
 
 acmetool_email: ""
 > optional, let's encypt emails
+
 acmetool_agreement: True
 > required, accept terms
+
 acmetool_server: "https://acme-v01.api.letsencrypt.org/directory"
 > required
+
 acmetool_method: "proxy"
 > required, options: webroot, proxy, stateless, redirector refere to [acmetool](https://hlandau.github.io/acme/userguide#web-server-configuration-challenges) 
+
 acmetool_webroot_path: ""
 > required when acmetool_method is webroot
+
 acmetool_quickstart_complete: True
+
 acmetool_systemd_timer: False
 > optional, install systemd timer for autorenewal
+
 acmetool_install_cronjob: False
 > optinal, install cronjob for autorenewal
+
 acmetool_install_haproxy_script: False
 > optional
+
 acmetool_install_redirector_systemd: True
 > optional
+
 acmetool_key_type: "rsa"
 > required, options: rsa, ecdsa
+
 acmetool_rsa_key_size: 4096
 > required, 2048 - 4096 bytes
+
 acmetool_ecdsa_curve: "nistp256"
 > required, options: nistp256 (recommended), nistp384, nistp521 (limited support)
 
