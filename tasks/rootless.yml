@@ -1,11 +1,11 @@
 ---
-#Task file for rootless acmetool setup
+# Task file for rootless acmetool setup
 
 - name: Create "{{acmetool_user}}" user for acmetool
   user:
     name: "{{acmetool_user}}"
-    group: "{{acmetool_user}}"
-    create_home: no
+    # group: "{{acmetool_user}}"
+    create_home: false
     shell: "/usr/sbin/nologin"
 
 - name: Create /var/lib/acme and set permissions
@@ -15,6 +15,9 @@
     group: "{{acmetool_user}}"
     state: "directory"
 
+- name: Run handler
+  meta: flush_handlers
+
 - name: Create /usr/lib/acme/hooks and set permissions
   file:
     path: "/usr/lib/acme/hooks"
@@ -23,17 +26,21 @@
     mode: "0775"
     state: "directory"
 
-- name: Run acmetool quickstart
-  command: acmetool quickstart
-  become_user: "{{acmetool_user}}"
-
-- name: Lookdown permissions
-  file:
+- name: Get files in hook
+  find:
     path: "/usr/lib/acme/hooks"
+    file_type: file
+    recurse: true
+  register: hook_files
+
+- name: Lookdown hooks dir
+  file:
+    path: "{{ item.path }}"
     owner: "root"
     group: "root"
     mode: u+s,g=rX
-    recurse: yes
+  with_items:
+    - "{{ hook_files.files }}"
 
 - name: Setup NOPASSWD for /usr/lib/acme/hooks
   lineinfile:

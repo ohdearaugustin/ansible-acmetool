@@ -1,5 +1,6 @@
+---
 galaxy_info:
-  author: Jonas Reindl 
+  author: Jonas Reindl
   description: Ansible role for acmetool
 
   min_ansible_version: 1.2

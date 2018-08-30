@@ -1,2 +1,15 @@
 ---
-# handlers file for ansible-acmetool
+
+- name: Run acmetool quickstart
+  command: acmetool quickstart
+  register: acmetool_cmd
+  failed_when: acmetool_cmd.rc != 0
+  when: not acmetool_rootless
+
+- name: Run acmetool quickstart rootless
+  become: true
+  become_user: "{{acmetool_user}}"
+  command: acmetool quickstart
+  register: acmetool_cmd
+  failed_when: acmetool_cmd.rc != 0
+  when: acmetool_rootless

@@ -24,6 +24,9 @@
     group: "root"
     mode: "0644"
   register: acmetool_configure
+  notify:
+    - Run acmetool quickstart
+    - Run acmetool quickstart rootless
 
 - name: Rootless setup
   include_tasks: rootless.yml
@@ -32,17 +35,3 @@
 - name: Systemd Timer setup
   include_tasks: systemdtimer.yml
   when: acmetool_install_systemd_timer and not acmetool_install_cronjob
-
-- name: Run acmetool quickstart
-  command: acmetool quickstart
-  register: acmetool_cmd
-  failed_when: acmetool_cmd.rc != 0
-  when: not acmetool_rootless and acmetool_configure.changed
-
-- name: Run acmetool quickstart rootless
-  become: yes
-  become_user: "{{acmetool_user}}"
-  command: acmetool quickstart
-  register: acmetool_cmd
-  failed_when: acmetool_cmd.rc != 0
-  when: acmetool_rootless and acmetool_configure.changed
