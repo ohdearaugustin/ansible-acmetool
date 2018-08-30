@@ -1,0 +1,7 @@
+---
+- name: Converge
+  hosts: all
+  roles:
+    - role: ansible-acmetool
+  vars:
+    - acmetool_server: "https://acme-staging.api.letsencrypt.org/directory"
